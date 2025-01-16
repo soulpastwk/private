@@ -1,0 +1,891 @@
+    ┌──────────────────────────────────────────────────────────────────────┐
+    │               • MobaXterm Professional Edition v24.2 •               │
+    │               (SSH client, X server and network tools)               │
+    │                                                                      │
+    │ ⮞ SSH session to root@66.151.40.171                                  │
+    │   • Direct SSH      :  ✓                                             │
+    │   • SSH compression :  ✓                                             │
+    │   • SSH-browser     :  ✓                                             │
+    │   • X11-forwarding  :  ✓  (remote display is forwarded through SSH)  │
+    │                                                                      │
+    │ ⮞ For more info, ctrl+click on help or visit our website.            │
+    └──────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 24.04.1 LTS (GNU/Linux 6.8.0-39-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+Last login: Sat Jan 11 19:31:36 2025 from 77.239.200.71
+root@server-wk13:~# useradd -G sudo -m vpnadmin -s /bin/bash
+root@server-wk13:~# passwd vpnadmin
+New password:
+Retype new password:
+passwd: password updated successfully
+root@server-wk13:~#
+root@server-wk13:~# apt update & apt upgrade -y
+[1] 32886
+Reading package lists... Done
+Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Hit:2 http://de.archive.ubuntu.com/ubuntu noble InRelease
+Get:3 http://de.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://de.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://de.archive.ubuntu.com/ubuntu noble-proposed InRelease [265 kB]
+Get:6 http://de.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [770 kB]
+Building dependency tree... Done]
+Reading state information... Done
+Get:7 http://de.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [151 kB]
+Get:8 http://de.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+Get:9 http://de.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [972 kB]
+Get:10 http://de.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [309 kB]
+Get:11 http://de.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+Get:12 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [7212 B]
+Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
+Get:14 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.0 kB]
+Get:15 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]
+Get:16 http://de.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [208 B]
+Get:17 http://de.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B]
+Get:18 http://de.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [11.7 kB]
+Get:19 http://de.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+Get:20 http://de.archive.ubuntu.com/ubuntu noble-proposed/main amd64 Components [50.8 kB]
+Get:21 http://de.archive.ubuntu.com/ubuntu noble-proposed/restricted amd64 Components [212 B]
+Get:22 http://de.archive.ubuntu.com/ubuntu noble-proposed/universe amd64 Components [78.3 kB]
+Get:23 http://de.archive.ubuntu.com/ubuntu noble-proposed/multiverse amd64 Components [212 B]
+Calculating upgrade... Done
+Fetched 3048 kB in 4s (792 kB/s)
+The following package was automatically installed and is no longer required:
+  python3-netifaces
+Use 'apt autoremove' to remove it.
+E: Can't find a source to download version '1.2.8-2ubuntu1.1' of 'libpackagekit-glib2-18:amd64'
+E: Can't find a source to download version '1.2.8-2ubuntu1.1' of 'gir1.2-packagekitglib-1.0:amd64'
+E: Can't find a source to download version '20240318.git3b128b60-0ubuntu2.6' of 'linux-firmware:amd64'
+E: Can't find a source to download version '1.2.8-2ubuntu1.1' of 'packagekit-tools:amd64'
+E: Can't find a source to download version '1.2.8-2ubuntu1.1' of 'packagekit:amd64'
+E: Can't find a source to download version '24.4-0ubuntu1~24.04.2' of 'cloud-init:amd64'
+E: Can't find a source to download version '0.2.1' of 'unminimize:amd64'
+E: Can't find a source to download version '1.539.1' of 'ubuntu-server-minimal:amd64'
+E: Can't find a source to download version '5.11-0ubuntu2.24.04.1' of 'ssh-import-id:amd64'
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+13 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+[1]+  Done                    apt update
+root@server-wk13:~#
+root@server-wk13:~#
+root@server-wk13:~# apt install openvpn easy-rsa stunnel -y
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Note, selecting 'stunnel4' instead of 'stunnel'
+The following additional packages will be installed:
+  libccid libeac3 libnl-3-200 libnl-genl-3-200 libpcsclite1 libpkcs11-helper1t64 opensc opensc-pkcs11 pcscd
+Suggested packages:
+  pcmciautils openvpn-dco-dkms openvpn-systemd-resolved logcheck-database
+The following NEW packages will be installed:
+  easy-rsa libccid libeac3 libnl-3-200 libnl-genl-3-200 libpcsclite1 libpkcs11-helper1t64 opensc opensc-pkcs11 openvpn
+  pcscd stunnel4
+0 upgraded, 12 newly installed, 0 to remove and 13 not upgraded.
+Need to get 2608 kB of archives.
+After this operation, 7876 kB of additional disk space will be used.
+Get:1 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 stunnel4 amd64 3:5.72-1build2 [218 kB]
+Get:2 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 libccid amd64 1.5.5-1 [83.0 kB]
+Get:3 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libpcsclite1 amd64 2.0.3-1build1 [21.4 kB]
+Get:4 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 pcscd amd64 2.0.3-1build1 [61.7 kB]
+Get:5 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnl-3-200 amd64 3.7.0-0.3build1 [55.6 kB]
+Get:6 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 libeac3 amd64 1.1.2+ds+git20220117+453c3d6b03a0-1.1build2 [54.3 kB]
+Get:7 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnl-genl-3-200 amd64 3.7.0-0.3build1 [12.1 kB]
+Get:8 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libpkcs11-helper1t64 amd64 1.29.0-2.1build2 [50.3 kB]
+Get:9 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 opensc-pkcs11 amd64 0.25.0~rc1-1build2 [936 kB]
+Get:10 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 opensc amd64 0.25.0~rc1-1build2 [370 kB]
+Get:11 http://de.archive.ubuntu.com/ubuntu noble-updates/main amd64 openvpn amd64 2.6.12-0ubuntu0.24.04.1 [681 kB]
+Get:12 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 easy-rsa all 3.1.7-2 [64.8 kB]
+Fetched 2608 kB in 0s (10.8 MB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package stunnel4.
+(Reading database ... 45988 files and directories currently installed.)
+Preparing to unpack .../00-stunnel4_3%3a5.72-1build2_amd64.deb ...
+Unpacking stunnel4 (3:5.72-1build2) ...
+Selecting previously unselected package libccid.
+Preparing to unpack .../01-libccid_1.5.5-1_amd64.deb ...
+Unpacking libccid (1.5.5-1) ...
+Selecting previously unselected package libpcsclite1:amd64.
+Preparing to unpack .../02-libpcsclite1_2.0.3-1build1_amd64.deb ...
+Unpacking libpcsclite1:amd64 (2.0.3-1build1) ...
+Selecting previously unselected package pcscd.
+Preparing to unpack .../03-pcscd_2.0.3-1build1_amd64.deb ...
+Unpacking pcscd (2.0.3-1build1) ...
+Selecting previously unselected package libnl-3-200:amd64.
+Preparing to unpack .../04-libnl-3-200_3.7.0-0.3build1_amd64.deb ...
+Unpacking libnl-3-200:amd64 (3.7.0-0.3build1) ...
+Selecting previously unselected package libeac3:amd64.
+Preparing to unpack .../05-libeac3_1.1.2+ds+git20220117+453c3d6b03a0-1.1build2_amd64.deb ...
+Unpacking libeac3:amd64 (1.1.2+ds+git20220117+453c3d6b03a0-1.1build2) ...
+Selecting previously unselected package libnl-genl-3-200:amd64.
+Preparing to unpack .../06-libnl-genl-3-200_3.7.0-0.3build1_amd64.deb ...
+Unpacking libnl-genl-3-200:amd64 (3.7.0-0.3build1) ...
+Selecting previously unselected package libpkcs11-helper1t64:amd64.
+Preparing to unpack .../07-libpkcs11-helper1t64_1.29.0-2.1build2_amd64.deb ...
+Unpacking libpkcs11-helper1t64:amd64 (1.29.0-2.1build2) ...
+Selecting previously unselected package opensc-pkcs11:amd64.
+Preparing to unpack .../08-opensc-pkcs11_0.25.0~rc1-1build2_amd64.deb ...
+Unpacking opensc-pkcs11:amd64 (0.25.0~rc1-1build2) ...
+Selecting previously unselected package opensc.
+Preparing to unpack .../09-opensc_0.25.0~rc1-1build2_amd64.deb ...
+Unpacking opensc (0.25.0~rc1-1build2) ...
+Selecting previously unselected package openvpn.
+Preparing to unpack .../10-openvpn_2.6.12-0ubuntu0.24.04.1_amd64.deb ...
+Unpacking openvpn (2.6.12-0ubuntu0.24.04.1) ...
+Selecting previously unselected package easy-rsa.
+Preparing to unpack .../11-easy-rsa_3.1.7-2_all.deb ...
+Unpacking easy-rsa (3.1.7-2) ...
+Setting up stunnel4 (3:5.72-1build2) ...
+Creating group 'stunnel4' with GID 990.
+Creating user 'stunnel4' (stunnel service system account) with UID 990 and GID 990.
+Created symlink /etc/systemd/system/multi-user.target.wants/stunnel.target → /usr/lib/systemd/system/stunnel.target.
+Setting up libccid (1.5.5-1) ...
+Setting up libeac3:amd64 (1.1.2+ds+git20220117+453c3d6b03a0-1.1build2) ...
+Setting up opensc-pkcs11:amd64 (0.25.0~rc1-1build2) ...
+Setting up libpcsclite1:amd64 (2.0.3-1build1) ...
+Setting up libnl-3-200:amd64 (3.7.0-0.3build1) ...
+Setting up libpkcs11-helper1t64:amd64 (1.29.0-2.1build2) ...
+Setting up easy-rsa (3.1.7-2) ...
+Setting up opensc (0.25.0~rc1-1build2) ...
+Setting up pcscd (2.0.3-1build1) ...
+Created symlink /etc/systemd/system/sockets.target.wants/pcscd.socket → /usr/lib/systemd/system/pcscd.socket.
+pcscd.service is a disabled or a static unit, not starting it.
+Setting up libnl-genl-3-200:amd64 (3.7.0-0.3build1) ...
+Setting up openvpn (2.6.12-0ubuntu0.24.04.1) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 79.)
+debconf: falling back to frontend: Readline
+Created symlink /etc/systemd/system/multi-user.target.wants/openvpn.service → /usr/lib/systemd/system/openvpn.service.
+Processing triggers for libc-bin (2.39-0ubuntu8.3) ...
+Scanning processes...
+Scanning linux images...
+
+Pending kernel upgrade!
+Running kernel version:
+  6.8.0-39-generic
+Diagnostics:
+  The currently running kernel version is not the expected kernel version 6.8.0-51-generic.
+
+Restarting the system to load the new kernel will not be handled automatically, so you should consider rebooting.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@server-wk13:~#
+root@server-wk13:~#
+root@server-wk13:~# cd /usr/share/easy-rsa
+root@server-wk13:/usr/share/easy-rsa# cp openssl-1.0.0.cnf openssl.cnf
+source ./vars
+./clean-all
+./build-ca
+cp: cannot stat 'openssl-1.0.0.cnf': No such file or directory
+-bash: ./vars: No such file or directory
+-bash: ./clean-all: No such file or directory
+-bash: ./build-ca: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# cp openssl-1.0.0.cnf openssl.cnf
+cp: cannot stat 'openssl-1.0.0.cnf': No such file or directory
+root@server-wk13:/usr/share/easy-rsa# la -lah
+total 220K
+drwxr-xr-x   3 root root 4.0K Jan 12 11:12 .
+drwxr-xr-x 100 root root 4.0K Jan 12 11:12 ..
+-rwxr-xr-x   1 root root 185K Oct 14  2023 easyrsa
+-rw-r--r--   1 root root 5.1K Oct 14  2023 openssl-easyrsa.cnf
+-rw-r--r--   1 root root 8.9K Oct 14  2023 vars.example
+drwxr-xr-x   2 root root 4.0K Jan 12 11:12 x509-types
+root@server-wk13:/usr/share/easy-rsa# mc
+-bash: mc: command not found
+root@server-wk13:/usr/share/easy-rsa# apt install mc
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  bzip2 file libgpm2 libmagic-mgc libmagic1t64 libslang2 libssh2-1t64 mailcap mc-data unzip
+Suggested packages:
+  bzip2-doc gpm arj catdvi | texlive-binaries dbview djvulibre-bin epub-utils genisoimage gv imagemagick libaspell-dev
+  links | w3m | lynx odt2txt poppler-utils python python-boto python-tz unar wimtools xpdf | pdf-viewer zip
+The following NEW packages will be installed:
+  bzip2 file libgpm2 libmagic-mgc libmagic1t64 libslang2 libssh2-1t64 mailcap mc mc-data unzip
+0 upgraded, 11 newly installed, 0 to remove and 13 not upgraded.
+Need to get 3245 kB of archives.
+After this operation, 20.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libslang2 amd64 2.3.3-3build2 [506 kB]
+Get:2 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libmagic-mgc amd64 1:5.45-3build1 [307 kB]
+Get:3 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libmagic1t64 amd64 1:5.45-3build1 [87.2 kB]
+Get:4 http://de.archive.ubuntu.com/ubuntu noble/main amd64 file amd64 1:5.45-3build1 [22.0 kB]
+Get:5 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libgpm2 amd64 1.20.7-11 [14.1 kB]
+Get:6 http://de.archive.ubuntu.com/ubuntu noble-updates/main amd64 bzip2 amd64 1.0.8-5.1build0.1 [34.5 kB]
+Get:7 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libssh2-1t64 amd64 1.11.0-4.1build2 [120 kB]
+Get:8 http://de.archive.ubuntu.com/ubuntu noble/main amd64 mailcap all 3.70+nmu1ubuntu1 [23.8 kB]
+Get:9 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 mc-data all 3:4.8.30-1build2 [1397 kB]
+Get:10 http://de.archive.ubuntu.com/ubuntu noble/universe amd64 mc amd64 3:4.8.30-1build2 [559 kB]
+Get:11 http://de.archive.ubuntu.com/ubuntu noble-updates/main amd64 unzip amd64 6.0-28ubuntu4.1 [174 kB]
+Fetched 3245 kB in 0s (12.3 MB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libslang2:amd64.
+(Reading database ... 46344 files and directories currently installed.)
+Preparing to unpack .../00-libslang2_2.3.3-3build2_amd64.deb ...
+Unpacking libslang2:amd64 (2.3.3-3build2) ...
+Selecting previously unselected package libmagic-mgc.
+Preparing to unpack .../01-libmagic-mgc_1%3a5.45-3build1_amd64.deb ...
+Unpacking libmagic-mgc (1:5.45-3build1) ...
+Selecting previously unselected package libmagic1t64:amd64.
+Preparing to unpack .../02-libmagic1t64_1%3a5.45-3build1_amd64.deb ...
+Unpacking libmagic1t64:amd64 (1:5.45-3build1) ...
+Selecting previously unselected package file.
+Preparing to unpack .../03-file_1%3a5.45-3build1_amd64.deb ...
+Unpacking file (1:5.45-3build1) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../04-libgpm2_1.20.7-11_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-11) ...
+Selecting previously unselected package bzip2.
+Preparing to unpack .../05-bzip2_1.0.8-5.1build0.1_amd64.deb ...
+Unpacking bzip2 (1.0.8-5.1build0.1) ...
+Selecting previously unselected package libssh2-1t64:amd64.
+Preparing to unpack .../06-libssh2-1t64_1.11.0-4.1build2_amd64.deb ...
+Unpacking libssh2-1t64:amd64 (1.11.0-4.1build2) ...
+Selecting previously unselected package mailcap.
+Preparing to unpack .../07-mailcap_3.70+nmu1ubuntu1_all.deb ...
+Unpacking mailcap (3.70+nmu1ubuntu1) ...
+Selecting previously unselected package mc-data.
+Preparing to unpack .../08-mc-data_3%3a4.8.30-1build2_all.deb ...
+Unpacking mc-data (3:4.8.30-1build2) ...
+Selecting previously unselected package mc.
+Preparing to unpack .../09-mc_3%3a4.8.30-1build2_amd64.deb ...
+Unpacking mc (3:4.8.30-1build2) ...
+Selecting previously unselected package unzip.
+Preparing to unpack .../10-unzip_6.0-28ubuntu4.1_amd64.deb ...
+Unpacking unzip (6.0-28ubuntu4.1) ...
+Setting up libgpm2:amd64 (1.20.7-11) ...
+Setting up libmagic-mgc (1:5.45-3build1) ...
+Setting up unzip (6.0-28ubuntu4.1) ...
+Setting up libmagic1t64:amd64 (1:5.45-3build1) ...
+Setting up file (1:5.45-3build1) ...
+Setting up bzip2 (1.0.8-5.1build0.1) ...
+Setting up libslang2:amd64 (2.3.3-3build2) ...
+Setting up mc-data (3:4.8.30-1build2) ...
+Setting up libssh2-1t64:amd64 (1.11.0-4.1build2) ...
+Setting up mailcap (3.70+nmu1ubuntu1) ...
+Setting up mc (3:4.8.30-1build2) ...
+update-alternatives: using /usr/bin/mcview to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/mcview.1.gz (of link group view) doesn't exist
+Processing triggers for libc-bin (2.39-0ubuntu8.3) ...
+Scanning processes...
+Scanning linux images...
+
+Pending kernel upgrade!
+Running kernel version:
+  6.8.0-39-generic
+Diagnostics:
+  The currently running kernel version is not the expected kernel version 6.8.0-51-generic.
+
+Restarting the system to load the new kernel will not be handled automatically, so you should consider rebooting.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@server-wk13:/usr/share/easy-rsa# mc
+
+root@server-wk13:/usr/share/easy-rsa# cp openssl-easyrsa.cnf openssl.cnf
+root@server-wk13:/usr/share/easy-rsa# source ./vars
+bash: ./vars: No such file or directory
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa# ./build-ca
+bash: ./build-ca: No such file or directory
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/# ls -ld /build-ca
+ls: cannot access '/build-ca': No such file or directory
+root@server-wk13:/# find / -type d -name build-ca
+root@server-wk13:/# find / -type f -name build-ca
+root@server-wk13:/#
+root@server-wk13:/#
+root@server-wk13:/etc# source ./vars
+bash: ./vars: No such file or directory
+root@server-wk13:/etc# ./clean-all
+bash: ./clean-all: No such file or directory
+root@server-wk13:/etc# ./build-ca
+bash: ./build-ca: No such file or directory
+root@server-wk13:/etc# cd /usr/share/easy-rsa
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa# ды -дфр
+bash: ды: command not found
+root@server-wk13:/usr/share/easy-rsa# ls -lac
+total 228
+drwxr-xr-x   3 root root   4096 Jan 12 11:15 .
+drwxr-xr-x 102 root root   4096 Jan 12 11:14 ..
+-rwxr-xr-x   1 root root 189372 Jan 12 11:12 easyrsa
+-rw-r--r--   1 root root   5145 Jan 12 11:12 openssl-easyrsa.cnf
+-rw-r--r--   1 root root   5145 Jan 12 11:15 openssl.cnf
+-rw-r--r--   1 root root   9085 Jan 12 11:12 vars.example
+drwxr-xr-x   2 root root   4096 Jan 12 11:12 x509-types
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa#  cp vars.example vars
+root@server-wk13:/usr/share/easy-rsa# source ./vars
+You appear to be sourcing an Easy-RSA *vars* file. This is
+no longer necessary and is disallowed. See the section called
+*How to use this file* near the top comments for more details.
+root@server-wk13:/usr/share/easy-rsa# cd /usr/share/easy-rsa
+root@server-wk13:/usr/share/easy-rsa# ./clean-all
+bash: ./clean-all: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# ./build-ca
+bash: ./build-ca: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# ./build-key-server server1
+bash: ./build-key-server: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# ./build-key client1
+bash: ./build-key: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# ./build-dh
+bash: ./build-dh: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# cd keys
+bash: cd: keys: No such file or directory
+root@server-wk13:/usr/share/easy-rsa# openvpn --genkey --secret ta.key
+2025-01-12 11:26:04 DEPRECATED OPTION: The option --secret is deprecated.
+2025-01-12 11:26:04 WARNING: Using --genkey --secret filename is DEPRECATED.  Use --genkey secret filename instead.
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-ca
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+EasyRSA version 3.1.7
+
+Error
+-----
+EASYRSA_PKI does not exist (perhaps you need to run init-pki)?
+Expected to find the EASYRSA_PKI at:
+* /usr/share/easy-rsa/pki
+
+Run easyrsa without commands for usage and command help.
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-server server1
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+EasyRSA version 3.1.7
+
+Error
+-----
+Unknown command 'build-server'. Run without commands for usage help.
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa init-pki
+
+Notice
+------
+'init-pki' complete; you may now create a CA or requests.
+
+Your newly created PKI dir is:
+* /usr/share/easy-rsa/pki
+
+Using Easy-RSA configuration:
+* /usr/share/easy-rsa/vars
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa clean-all
+
+WARNING!!!
+
+You are about to remove the EASYRSA_PKI at:
+* /usr/share/easy-rsa/pki
+
+and initialize a fresh PKI here.
+
+Type the word 'yes' to continue, or any other input to abort.
+  Confirm removal: yes
+
+
+Notice
+------
+'init-pki' complete; you may now create a CA or requests.
+
+Your newly created PKI dir is:
+* /usr/share/easy-rsa/pki
+
+Using Easy-RSA configuration:
+* /usr/share/easy-rsa/vars
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-ca
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+Using SSL:
+* openssl OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+Passphrase must be at least 4 characters!
+
+Enter New CA Key Passphrase:
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-ca nopass
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+Using SSL:
+* openssl OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+.........+.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+...+....+...........+....+......+..+......+......+.+..+.+.....+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+....+.........+..+....+.....+...+.......+...........+.......+..+...+...+.......+..+.+...+............+.....+.............+.........+...+.....+.........+.+...............+.....+.......+.....+.......+...+...+........+......+......+............+......+.+.........+..+....+.....+.+........+......+...............................+........+......+..........+...+.....+.......+........+.+.....+....+......+...........+......+...............+...+............+.......+..+..........+...+..+...+......+.......+...+...........+.+..+............+.+............+..+...+...+...+......+....+.........+........+....+.....+.............+...+..+...+.........+.+..+.+......+.........+...........+.+.....+.........+...............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+...+............+......+..........+.....+.......+.....+.+..+....+........+.+....................+.......+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.............+.......+...+..+.+...+......+...........+...+......+..........+.....+.+.....+..........+..+...............+.+.....+.+..................+..+.........+.......+........+.+........+......+......+......+.........+.+..+.+..+....+...+............+...+...........+.+..............+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:
+
+Notice
+------
+CA creation complete. Your new CA certificate is at:
+* /usr/share/easy-rsa/pki/ca.crt
+
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-server-full server1 nopass
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+Using SSL:
+* openssl OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+............+.+......+..+..........+...+...+......+......+..+.......+.....+.+.....+...........................+.+..+.............+..+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.............+.+..+....+.....+...+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..........+..+.............+..+.+..+.+.........+............+.........+.....+.+.....+.+....................+...+.+...+.....+......+...............+......+....+...........+...+.+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+........+...+.+............+.....+.........+....+............+...+..+.......+.....+............+.+..............+.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+..........+........+......+.+.....+...+...+.........+.............+..+.+............+............+...+...+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...........+....+......+.....+......+...+.+...+......+.....+.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+
+Notice
+------
+Private-Key and Public-Certificate-Request files created.
+Your files are:
+* req: /usr/share/easy-rsa/pki/reqs/server1.req
+* key: /usr/share/easy-rsa/pki/private/server1.key
+
+You are about to sign the following certificate:
+Request subject, to be signed as a server certificate
+for '825' days:
+
+subject=
+    commonName                = server1
+
+Type the word 'yes' to continue, or any other input to abort.
+  Confirm request details: yes
+
+Using configuration from /usr/share/easy-rsa/pki/openssl-easyrsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+commonName            :ASN.1 12:'server1'
+Certificate is to be certified until Apr 17 10:29:10 2027 GMT (825 days)
+
+Write out database with 1 new entries
+Database updated
+
+Notice
+------
+Certificate created at:
+* /usr/share/easy-rsa/pki/issued/server1.crt
+
+Notice
+------
+Inline file created:
+* /usr/share/easy-rsa/pki/inline/server1.inline
+
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa build-client-full client1 nopass
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+Using SSL:
+* openssl OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+..+......+........+.......+....................+...+.+..+.......+......+..+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+.+............+........+....+...+........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+...+.......+..+.........+.......+...+..+.......+.................+....+.....+.........+...+.......+..+.............+...+..+.......+.....+.+..+...............+...+.........+......+...+.+.........+..+.......+........+....+........+.......+...+...+..+..........+......+..............+...+...+....+.....+......+......+.+....................+....+...+.....+......+.+.........+.....+....+...+...+..............+...............+...+.............+..+...+......+....+...........+...+...............+.+.....+.......+...+..........................+.+.........+...+..+....+..+...+....+...+.....+..................+....+........+....+.........+...........+......+....+......+........+....+..+....+.........+.....+.+..+............+.+..+............+......+.+.....+.........+.......+..+......+.+...............+......+.....+...+......+...+..........+...............+..................+...+...........+......+...+.........+..........+......+..+.......+.....+...+..................+.......+..+..........+...+.........+........+.+..+..........+.....+...+......+.+..............+.+..+...............+...+...+.+......+..+.+.........+...+.........+.....+....+.........+.................+.+.....+...+....+...+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.........+..+...+..........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+..+......+.+...+..+...............+.+...+......+.....+...+.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*......+.+..+....+.........+.....+.+....................+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+
+Notice
+------
+Private-Key and Public-Certificate-Request files created.
+Your files are:
+* req: /usr/share/easy-rsa/pki/reqs/client1.req
+* key: /usr/share/easy-rsa/pki/private/client1.key
+
+You are about to sign the following certificate:
+Request subject, to be signed as a client certificate
+for '825' days:
+
+subject=
+    commonName                = client1
+
+Type the word 'yes' to continue, or any other input to abort.
+  Confirm request details: yes
+
+Using configuration from /usr/share/easy-rsa/pki/openssl-easyrsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+commonName            :ASN.1 12:'client1'
+Certificate is to be certified until Apr 17 10:29:21 2027 GMT (825 days)
+
+Write out database with 1 new entries
+Database updated
+
+Notice
+------
+Certificate created at:
+* /usr/share/easy-rsa/pki/issued/client1.crt
+
+Notice
+------
+Inline file created:
+* /usr/share/easy-rsa/pki/inline/client1.inline
+
+root@server-wk13:/usr/share/easy-rsa# ./easyrsa gen-dh
+Using Easy-RSA 'vars' configuration:
+* /usr/share/easy-rsa/vars
+
+Using SSL:
+* openssl OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+Generating DH parameters, 2048 bit long safe prime
+....................................................................................+.......................................................................+....................................................................+.........................+..................................................+........................................+.......................................+.........................................................................................................................................+.................................................................................................................................................................................................................................................................+...............................................................................................................................................................+................................................+..........................+........................................................................+...................+..................+......................................+....................................................................+.................................................................................................................................................................................................+............................................................................+.......................+..............................................................................+..........................................+................................................+...................................................................................................................................................................................+............................................+..........................................................................................................................................................................................................................................................................................................................................................................................................+...........+.................+.........................+.............+....................................................................+.....................................................................+.............................+..............................................................................................+........................................................................................................................................................................+....................................................................................+........................................................................+.........................................................................................................................................+..............+.....+..........................................+................................................................................................................+............................................................................................................................................................................................................................................................+........................................+................................................................................................................................................................................+...........................+..............................................................................................................................................................................................+.................+......................................................................................................................................................................................................................................+............................+...........................................................+....................................+.............................+..............................+...............................................................................+.....................................................+........................+...........................................................................................................................................................................................................................................................+.......................................................+..............................................................+.............................+........................+......................................................................................................................+..................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................+............................................................................+...........................................................................................................................................................................................................................................+.....................................+.................................................................................+....................................+.............................++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*++*
+DH parameters appear to be ok.
+
+Notice
+------
+
+DH parameters of size 2048 created at:
+* /usr/share/easy-rsa/pki/dh.pem
+
+root@server-wk13:/usr/share/easy-rsa# cd pki/private
+root@server-wk13:/usr/share/easy-rsa/pki/private# openvpn --genkey --secret ../../ta.key
+2025-01-12 11:32:39 DEPRECATED OPTION: The option --secret is deprecated.
+2025-01-12 11:32:39 WARNING: Using --genkey --secret filename is DEPRECATED.  Use --genkey secret filename instead.
+root@server-wk13:/usr/share/easy-rsa/pki/private# cp ca.crt server1.crt server1.key ta.key dh2048.pem /etc/openvpn
+cp: cannot stat 'ca.crt': No such file or directory
+cp: cannot stat 'server1.crt': No such file or directory
+cp: cannot stat 'ta.key': No such file or directory
+cp: cannot stat 'dh2048.pem': No such file or directory
+root@server-wk13:/usr/share/easy-rsa/pki/private# cd /usr/share/easy-rsa
+root@server-wk13:/usr/share/easy-rsa# cp pki/ca.crt pki/issued/server1.crt pki/private/server1.key ta.key pki/dh.pem /etc/openvpn
+root@server-wk13:/usr/share/easy-rsa# cp pki/issued/client1.crt pki/private/client1.key /etc/openvpn
+root@server-wk13:/usr/share/easy-rsa#
+root@server-wk13:/usr/share/easy-rsa# cd /etc/openvpn/
+root@server-wk13:/etc/openvpn# nano server1.conf
+root@server-wk13:/etc/openvpn# nano server1.conf
+root@server-wk13:/etc/openvpn# nano server1.conf
+root@server-wk13:/etc/openvpn#
+root@server-wk13:/etc/openvpn# systemctl start openvpn@server1.service
+root@server-wk13:/etc/openvpn# systemctl enable openvpn@server1
+Created symlink /etc/systemd/system/multi-user.target.wants/openvpn@server1.service → /usr/lib/systemd/system/openvpn@.service.
+root@server-wk13:/etc/openvpn#
+root@server-wk13:/etc/openvpn# cd /etc/stunnel/
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# openssl req -nodes -new -days 365 -newkey rsa:4096 -x509 -keyout keys/server.key -out keys/server.crt
+......+.......+..+.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..+............+......+.+...+..+.+...............+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+.....+.........+.........+.+..............+..........+..................+...+..+.........+...+..........+...+...+.....+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.......+..+....+..+.......+...+........+......+...............+....+......+...+...+..+...........................+.+...+......+...+.....+.+.....+.+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+...+.....+.......+..+...+.......+........+...+....+...+........+...+.+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+..+...+......+....+...............+...+...+......+..............+.+...........+.......+...........+.......+.....+.............+..............+......+.+........+.............+.........+......+............+......+..+.......+..+...+.+..+.......+..+.........+....+........+...+....+..+..........+...............+...+...+............+...+........+.....................+......+............+.......+........+......+.........+...+...................+...+........+..........+.........+.........+.........+.....+......+........................+......+......+...+.......+...+..+.+..............+......+....+.....+.............+..................+..............+.+..+...+.......+..+.+.........+...........+..........+...+.........+......+......+........+.......+.....+...............+...+.+.....+.......+...............+.....+.......+...+..+.+...............+.....................+........+.............+.........+.....+.+..+...+.........+....+..............+.......+..............+.+..............+......+...+.............+..+.+.....+...............+......+......+............+.+.....................+........+............+...+............+.........+......+.........+............+...+....+..+.+............+.....+.+...............+..+....+.....+.+..............+.+..+......+......................+...+..............................+..............+.......+...+.....+.+.....+......+.....................+...+......+....+..+.........+......+............+..........+......+.....................+.....+...+.+..+.......+.....+...+...+.......................................+...............+.+................................+....+.....+.+..+......+......+....+.........+...+.........+..................+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+req: Can't open "keys/server.key" for writing, No such file or directory
+root@server-wk13:/etc/stunnel# mkdir -p /etc/stunnel/keys
+root@server-wk13:/etc/stunnel# openssl req -nodes -new -days 365 -newkey rsa:4096 -x509 -keyout keys/server.key -out keys/server.crt
+...+...+......+........+.+.....+......+.........+....+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+.......+..+.+......+.....+..........+...+...........+....+.....+.......+...+.....+...+....+...........+............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*......+.........+.......+............+..+...+.+..............+..............................+.+......+........+.+............+.....+..........+........+....+............+...+.....+.+.....+....+...+...+..+..........+..+................+.....+......+..........+...........+..........+.....+.............+...............+.........+.......................+....+.....+.+.....+.........+......+...+.......+.................+......+....+...+..+...+...+......+................+.........+..............+....+......+.....+......+.+.........+...+........+.......+........+...+....+...+...............+...+.....+....+..+...+...............................+..+.............+..+....+...............+...+...+........+.......+..+......+....+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+............+......+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..................+...+..........+.....+............+....+..+.........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+.......+............+......+...............+..+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# openssl req -nodes -new -days 365 -newkey rsa:4096 -x509 -keyout keys/clientkey.pem -out keys/clientcert.pem
+.+..+.+.........+...+..+....+...........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+...........+....+......+.....+.......+..+...+....+.........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+.........+.....+....+........+...+.+..............+.......+.....+.........+.........+.+...........+.........+...+.+..+.......+....................+...+...+.+....................+......+.......+..+...+............+.........+......+.............+.....................+.....+.+..............+......+.+...+.....+....+...+..+..................+.........+...+.......+...+..+......+....+..............+...........................+...+............+.............+.................+....+...+.....+.............+..+.............+.........+.........+..............+.......+..................+......+...........+...+...+....+...+...........+......+.........+......+....+..+...+...............+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+..+....+...+...........+....+...+..+.+.....+.+...+..+.+..+.......+.....+.........+.+.....+.+........+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*............+................+...+..+....+..............+.+.........+.........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+.+.....+.+...+..+...................+..............+...+....+...+......+.....+............+.......+...+.........+.....+...+...+...................+...+..+................+..+.......+...+..+......+...+.........+.+..+...+.+.....+...+......+............+...............+..........+...+..+...+..........+..+...............+............+..........+...+..+.+.....+..........+...........+...+...........................+....+.........+.....+......................+...+...+...+......+.....+.+........+....+...+........+......+.........+....+.....+.+......+.....+...+.+......+...+...+........................+.....+...+..................+.............+..+..........+...+......+.....+....+.........+...............+..+...............+.........+......+.............+..+.............+......+..+............+...............+......+.+......+...+.....+......+......+...+.+..................+........+..........+..+.+.........+..+......+..........+.....+....+.....+...+.......+.....+......+..................+....+..+......+..........+..+...+......................+...............+..................+..+.+.........+.....+.......+.........+..............+............+......+....+...+...+.....+....+...............+........+..................+...+......+....+..+.........+..................+...........................+.+..+.......+......+..+.+.....+......+...+.......+......+...+.........+..+......+....+........+.+..+....+.........................................+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# nano stunnel.conf
+root@server-wk13:/etc/stunnel# crontab -e
+bash: crontab: command not found
+root@server-wk13:/etc/stunnel# apt install crontab
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package crontab
+root@server-wk13:/etc/stunnel# apt install cron
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  cron-daemon-common
+Suggested packages:
+  anacron logrotate checksecurity supercat default-mta | mail-transport-agent
+The following NEW packages will be installed:
+  cron cron-daemon-common
+0 upgraded, 2 newly installed, 0 to remove and 13 not upgraded.
+Need to get 98.9 kB of archives.
+After this operation, 287 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://de.archive.ubuntu.com/ubuntu noble/main amd64 cron-daemon-common all 3.0pl1-184ubuntu2 [13.6 kB]
+Get:2 http://de.archive.ubuntu.com/ubuntu noble/main amd64 cron amd64 3.0pl1-184ubuntu2 [85.3 kB]
+Fetched 98.9 kB in 0s (812 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package cron-daemon-common.
+(Reading database ... 46864 files and directories currently installed.)
+Preparing to unpack .../cron-daemon-common_3.0pl1-184ubuntu2_all.deb ...
+Unpacking cron-daemon-common (3.0pl1-184ubuntu2) ...
+Setting up cron-daemon-common (3.0pl1-184ubuntu2) ...
+Creating group 'crontab' with GID 989.
+Selecting previously unselected package cron.
+(Reading database ... 46883 files and directories currently installed.)
+Preparing to unpack .../cron_3.0pl1-184ubuntu2_amd64.deb ...
+Unpacking cron (3.0pl1-184ubuntu2) ...
+Setting up cron (3.0pl1-184ubuntu2) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/cron.service → /usr/lib/systemd/system/cron.service.
+Scanning processes...
+Scanning linux images...
+
+Pending kernel upgrade!
+Running kernel version:
+  6.8.0-39-generic
+Diagnostics:
+  The currently running kernel version is not the expected kernel version 6.8.0-51-generic.
+
+Restarting the system to load the new kernel will not be handled automatically, so you should consider rebooting.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@server-wk13:/etc/stunnel# crontab -e
+no crontab for root - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/mcedit
+
+Choose 1-2 [1]: 1
+crontab: installing new crontab
+root@server-wk13:/etc/stunnel# stunnel stunnel.conf
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# ip -c -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+ens1             UP             66.151.40.171/24 metric 100 fe80::546f:bdff:fee2:46/64
+tun0             UNKNOWN        10.0.0.1 peer 10.0.0.2/32 fe80::e89c:8026:966d:2061/64
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# sysctl net.ipv4.ip_forward=1
+net.ipv4.ip_forward = 1
+root@server-wk13:/etc/stunnel# nano /etc/sysctl.conf
+root@server-wk13:/etc/stunnel# iptables -I FORWARD -i tun0 -o ens1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+bash: iptables: command not found
+root@server-wk13:/etc/stunnel# apt install iptables
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  libip4tc2 libip6tc2 libjansson4 libnetfilter-conntrack3 libnfnetlink0 libnftables1 libnftnl11 nftables
+Suggested packages:
+  firewalld
+The following NEW packages will be installed:
+  iptables libip4tc2 libip6tc2 libjansson4 libnetfilter-conntrack3 libnfnetlink0 libnftables1 libnftnl11 nftables
+0 upgraded, 9 newly installed, 0 to remove and 13 not upgraded.
+Need to get 1016 kB of archives.
+After this operation, 4371 kB of additional disk space will be used.
+Do you want to continue? [Y/n] н
+Abort.
+root@server-wk13:/etc/stunnel# apt install iptables
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  libip4tc2 libip6tc2 libjansson4 libnetfilter-conntrack3 libnfnetlink0 libnftables1 libnftnl11 nftables
+Suggested packages:
+  firewalld
+The following NEW packages will be installed:
+  iptables libip4tc2 libip6tc2 libjansson4 libnetfilter-conntrack3 libnfnetlink0 libnftables1 libnftnl11 nftables
+0 upgraded, 9 newly installed, 0 to remove and 13 not upgraded.
+Need to get 1016 kB of archives.
+After this operation, 4371 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libip4tc2 amd64 1.8.10-3ubuntu2 [23.3 kB]
+Get:2 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libip6tc2 amd64 1.8.10-3ubuntu2 [23.7 kB]
+Get:3 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnfnetlink0 amd64 1.0.2-2build1 [14.8 kB]
+Get:4 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnetfilter-conntrack3 amd64 1.0.9-6build1 [45.2 kB]
+Get:5 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnftnl11 amd64 1.2.6-2build1 [66.0 kB]
+Get:6 http://de.archive.ubuntu.com/ubuntu noble/main amd64 iptables amd64 1.8.10-3ubuntu2 [381 kB]
+Get:7 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libjansson4 amd64 2.14-2build2 [32.8 kB]
+Get:8 http://de.archive.ubuntu.com/ubuntu noble/main amd64 libnftables1 amd64 1.0.9-1build1 [358 kB]
+Get:9 http://de.archive.ubuntu.com/ubuntu noble/main amd64 nftables amd64 1.0.9-1build1 [69.8 kB]
+Fetched 1016 kB in 0s (5346 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libip4tc2:amd64.
+(Reading database ... 46912 files and directories currently installed.)
+Preparing to unpack .../0-libip4tc2_1.8.10-3ubuntu2_amd64.deb ...
+Unpacking libip4tc2:amd64 (1.8.10-3ubuntu2) ...
+Selecting previously unselected package libip6tc2:amd64.
+Preparing to unpack .../1-libip6tc2_1.8.10-3ubuntu2_amd64.deb ...
+Unpacking libip6tc2:amd64 (1.8.10-3ubuntu2) ...
+Selecting previously unselected package libnfnetlink0:amd64.
+Preparing to unpack .../2-libnfnetlink0_1.0.2-2build1_amd64.deb ...
+Unpacking libnfnetlink0:amd64 (1.0.2-2build1) ...
+Selecting previously unselected package libnetfilter-conntrack3:amd64.
+Preparing to unpack .../3-libnetfilter-conntrack3_1.0.9-6build1_amd64.deb ...
+Unpacking libnetfilter-conntrack3:amd64 (1.0.9-6build1) ...
+Selecting previously unselected package libnftnl11:amd64.
+Preparing to unpack .../4-libnftnl11_1.2.6-2build1_amd64.deb ...
+Unpacking libnftnl11:amd64 (1.2.6-2build1) ...
+Selecting previously unselected package iptables.
+Preparing to unpack .../5-iptables_1.8.10-3ubuntu2_amd64.deb ...
+Unpacking iptables (1.8.10-3ubuntu2) ...
+Selecting previously unselected package libjansson4:amd64.
+Preparing to unpack .../6-libjansson4_2.14-2build2_amd64.deb ...
+Unpacking libjansson4:amd64 (2.14-2build2) ...
+Selecting previously unselected package libnftables1:amd64.
+Preparing to unpack .../7-libnftables1_1.0.9-1build1_amd64.deb ...
+Unpacking libnftables1:amd64 (1.0.9-1build1) ...
+Selecting previously unselected package nftables.
+Preparing to unpack .../8-nftables_1.0.9-1build1_amd64.deb ...
+Unpacking nftables (1.0.9-1build1) ...
+Setting up libip4tc2:amd64 (1.8.10-3ubuntu2) ...
+Setting up libip6tc2:amd64 (1.8.10-3ubuntu2) ...
+Setting up libnftnl11:amd64 (1.2.6-2build1) ...
+Setting up libjansson4:amd64 (2.14-2build2) ...
+Setting up libnfnetlink0:amd64 (1.0.2-2build1) ...
+Setting up libnftables1:amd64 (1.0.9-1build1) ...
+Setting up nftables (1.0.9-1build1) ...
+Setting up libnetfilter-conntrack3:amd64 (1.0.9-6build1) ...
+Setting up iptables (1.8.10-3ubuntu2) ...
+update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in auto mode
+update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+update-alternatives: using /usr/sbin/iptables-nft to provide /usr/sbin/iptables (iptables) in auto mode
+update-alternatives: using /usr/sbin/ip6tables-nft to provide /usr/sbin/ip6tables (ip6tables) in auto mode
+update-alternatives: using /usr/sbin/arptables-nft to provide /usr/sbin/arptables (arptables) in auto mode
+update-alternatives: using /usr/sbin/ebtables-nft to provide /usr/sbin/ebtables (ebtables) in auto mode
+Processing triggers for libc-bin (2.39-0ubuntu8.3) ...
+Scanning processes...
+Scanning linux images...
+
+Pending kernel upgrade!
+Running kernel version:
+  6.8.0-39-generic
+Diagnostics:
+  The currently running kernel version is not the expected kernel version 6.8.0-51-generic.
+
+Restarting the system to load the new kernel will not be handled automatically, so you should consider rebooting.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# iptables -I FORWARD -i tun0 -o ens1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -t nat -I POSTROUTING -o ens1 -s 10.0.0.0/24 -j MASQUERADE
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# systemctl restart iptables
+Failed to restart iptables.service: Unit iptables.service not found.
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# iptables-save > /etc/iptables_rules.v4
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# crontab -e
+crontab: installing new crontab
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel#
+root@server-wk13:/etc/stunnel# cd /usr/share/easy-rsa/keys
+bash: cd: /usr/share/easy-rsa/keys: No such file or directory
+root@server-wk13:/etc/stunnel# cd /etc/open
+bash: cd: /etc/open: No such file or directory
+root@server-wk13:/etc/stunnel# cd /etc/openvpn/
+root@server-wk13:/etc/openvpn# ls -lah
+total 60K
+drwxr-xr-x  4 root root 4.0K Jan 12 11:38 .
+drwxr-xr-x 97 root root 4.0K Jan 12 11:50 ..
+-rw-------  1 root root 1.2K Jan 12 11:34 ca.crt
+drwxr-xr-x  2 root root 4.0K Sep 17 19:27 client
+-rw-------  1 root root 4.4K Jan 12 11:34 client1.crt
+-rw-------  1 root root 1.7K Jan 12 11:34 client1.key
+-rw-------  1 root root  424 Jan 12 11:34 dh.pem
+drwxr-xr-x  2 root root 4.0K Sep 17 19:27 server
+-rw-r--r--  1 root root  484 Jan 12 11:38 server1.conf
+-rw-------  1 root root 4.6K Jan 12 11:34 server1.crt
+-rw-------  1 root root 1.7K Jan 12 11:34 server1.key
+-rw-------  1 root root  636 Jan 12 11:34 ta.key
+-rwxr-xr-x  1 root root 1.5K Sep 17 19:27 update-resolv-conf
+root@server-wk13:/etc/openvpn#
+root@server-wk13:/etc/openvpn#
+

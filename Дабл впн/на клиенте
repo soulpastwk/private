@@ -1,0 +1,38 @@
+┌──(sadminwk㉿GPT)-[~]
+└─$ sftp root@66.151.40.171
+The authenticity of host '66.151.40.171 (66.151.40.171)' can't be established.
+ED25519 key fingerprint is SHA256:/jODGwdbTbut+a/E3v2qBGJ7lUSugZxjBVbIM4jLBp0.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '66.151.40.171' (ED25519) to the list of known hosts.
+root@66.151.40.171's password: 
+Connected to 66.151.40.171.
+sftp> 
+sftp> cd /usr/share/easy-rsa/keys
+stat remote: No such file or directory
+sftp> cd /etc/openvpn/
+sftp> get get ca.crt
+File "/etc/openvpn/get" not found.
+sftp> get ca.crt
+Fetching /etc/openvpn/ca.crt to ca.crt
+ca.crt                                                                                                                          100% 1204     5.6KB/s   00:00    
+sftp> get client1.crt
+Fetching /etc/openvpn/client1.crt to client1.crt
+client1.crt                                                                                                                     100% 4494    20.7KB/s   00:00    
+sftp> get client1.key
+Fetching /etc/openvpn/client1.key to client1.key
+client1.key                                                                                                                     100% 1704     7.8KB/s   00:00    
+sftp> get ta.key
+Fetching /etc/openvpn/ta.key to ta.key
+ta.key                                                                                                                          100%  636     3.0KB/s   00:00    
+sftp> 
+sftp> exit
+                                                                                                                                                                  
+┌──(sadminwk㉿GPT)-[~]
+└─$ 
+                                                                                                                                                                  
+┌──(sadminwk㉿GPT)-[~]
+└─$ nano doublevpn.ovpn
+                                                                                                                                                                  
+┌──(sadminwk㉿GPT)-[~]
+└─$ 

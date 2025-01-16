@@ -1,0 +1,286 @@
+#Выполняется всё в Ubuntu 24.04
+# Создаем non-root пользователя
+
+useradd -G sudo -m vpnuser -s /bin/bash
+passwd vpnuser (Vfufpbyysq_dgy13)
+
+apt update & apt upgrade -y
+
+apt install openvpn easy-rsa stunnel -y
+
+# Вводим yes где спросит нас, пароли не задаём сертам.
+cd /usr/share/easy-rsa
+cp vars.example vars
+./easyrsa init-pki
+./easyrsa clean-all
+./easyrsa build-ca nopass
+./easyrsa build-server-full server1 nopass
+./easyrsa build-client-full client1 nopass
+./easyrsa gen-dh # на генерацию уходит порядка 5 минут
+cd pki/private
+openvpn --genkey --secret ../../ta.key
+============================================================================================
+# ./easyrsa init-pki: Эта команда инициализирует структуру каталогов PKI, необходимую 
+# для хранения сертификатов и ключей. Ее нужно выполнить перед тем, как вы начнете генерировать что-либо.
+
+# build-server-full и build-client-full: Эти команды предназначены для создания полного комплекта ключей 
+# для сервера и клиента соответственно, включая запрос пароля. Добавление nopass исключает этот запрос.
+
+# cd pki/private: Теперь мы переходим в директорию private, где создаются ключи.
+
+# openvpn --genkey --secret ../../ta.key: Ключ ta.key теперь создается на уровень выше, чтобы он был доступен для OpenVPN.
+=============================================================================================
+
+============================================================================================
+# root@server1:/usr/share/easy-rsa/pki/private# openvpn --genkey --secret ../../ta.key
+# 2025-01-15 15:47:18 DEPRECATED OPTION: The option --secret is deprecated.
+# 2025-01-15 15:47:18 WARNING: Using --genkey --secret filename is DEPRECATED.  
+# Use --genkey secret filename instead.
+
+Сообщения DEPRECATED OPTION и WARNING можно проигнорировать. 
+Они сообщают о том, что команда --secret считается устаревшей, но она все еще работает.
+============================================================================================
+
+cd /usr/share/easy-rsa
+cp pki/ca.crt pki/issued/server1.crt pki/private/server1.key ta.key pki/dh.pem /etc/openvpn
+
+============================================================================================
+# Дополнительная информация:
+
+# Файл ca.crt - это корневой сертификат CA.
+# Файл server1.crt - это сертификат сервера.
+# Файл server1.key - это ключ сервера.
+# Файл ta.key - это ключ TLS-аутентификации.
+# Файл dh.pem - это параметры Диффи-Хеллмана.
+============================================================================================
+# Конфигурация сервера, создаём в cd /etc/openvpn/server1.conf
+
+nano /etc/openvpn/server1.conf
+
+port 444
+proto tcp
+dev tun0
+ca ca.crt
+cert server1.crt
+key server1.key
+dh dh.pem
+tls-auth ta.key 0
+remote-cert-tls client
+cipher AES-256-CBC
+server 10.0.0.0 255.255.255.0
+keepalive 10 120
+persist-key
+persist-tun
+status server1.log
+verb 0
+log /var/log/server1.log
+status /var/log/server1.log
+sndbuf 0
+rcvbuf 0
+comp-lzo
+push "redirect-gateway 10.0.0.1"
+#push "redirect-gateway autolocal"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+push "route 10.0.0.0 255.255.255.0"
+
+============================================================================================
+Анализ конфигурации:
+
+port 444: Выбран нестандартный порт, что хорошо с точки зрения безопасности.
+proto tcp: Используется TCP, что подходит для стабильности, но может быть медленнее, чем UDP.
+dev tun0: Используется туннельный интерфейс tun0.
+ca ca.crt, cert server1.crt, key server1.key: Правильные пути к сертификату CA, сертификату и ключу сервера (если вы их скопировали в /etc/openvpn).
+dh dh.pem: Вы используете файл DH, но обратите внимание, что у нас он называется dh.pem, если вы его переименовали при копировании, то все в порядке.
+tls-auth ta.key 0: Использование ta.key для дополнительной защиты (tls-auth).
+remote-cert-tls client: Заставляет OpenVPN проверять, что клиент предоставил сертификат, подписанный вашим CA.
+cipher AES-256-CBC: Используется шифрование AES-256-CBC.
+server 10.0.0.0 255.255.255.0: Определена сеть OpenVPN с диапазоном адресов 10.0.0.0/24.
+keepalive 10 120: Периодические проверки соединения.
+persist-key и persist-tun: Для сохранения ключей и туннельного интерфейса.
+status server1.log, verb 0, log /var/log/server1.log, status /var/log/server1.log: Настройки логирования.
+sndbuf 0, rcvbuf 0: Отключение буферизации.
+comp-lzo: Используется сжатие LZO.
+push "redirect-gateway 10.0.0.1": Перенаправление трафика клиента через VPN, вы перенаправляете трафик на адрес шлюза 10.0.0.1, убедитесь, что он у вас есть.
+#push "redirect-gateway autolocal": Закомментировано перенаправление через VPN локального трафика, лучше перенаправлять трафик через шлюз.
+push "dhcp-option DNS 8.8.8.8" и push "dhcp-option DNS 8.8.4.4": Задаются DNS-серверы для клиентов.
+push "route 10.0.0.0 255.255.255.0": Настройка маршрутизации, также обратите внимание, что клиент и так будет иметь доступ к сети 10.0.0.0/24
+
+============================================================================================
+
+# Запускаем openvpn и добавляем его в автозапуск
+
+systemctl start openvpn@server1.service
+systemctl enable openvpn@server1
+
+# Создайте директорию keys внутри /etc/stunnel, если ее нет:
+
+mkdir -p /etc/stunnel/keys
+cd /etc/stunnel/
+
+# Генерируем ключи для сервера и клиента, выполняем команды:
+openssl req -nodes -new -days 365 -newkey rsa:4096 -x509 -keyout keys/server.key -out keys/server.crt
+# данные оставляем пустыми в обоих случаях
+openssl req -nodes -new -days 365 -newkey rsa:4096 -x509 -keyout keys/clientkey.pem -out keys/clientcert.pem
+
+# Создаем конфиг для stunnel в cd /etc/stunnel
+
+nano stunnel.conf
+============================================================================================
+
+pid = /stunnel.pid
+debug = 0
+output = /var/log/stunel.log
+socket = l:TCP_NODELAY=1
+socket = r:TCP_NODELAY=1
+[ovn]
+client = no
+accept = 0.0.0.0:4443
+connect = 444
+renegotiation = no
+verifyPeer = yes
+ciphers = ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSACHACHA20-POLY1305:ECDHE-RSA-AES256-SHA
+cert = /etc/stunnel/keys/server.crt
+key = /etc/stunnel/keys/server.key
+;CAfile = /etc/stunnel/certs/client1.crt
+verifyPeer = no
+
+============================================================================================
+
+# Настраиваем автозапуск stunnel при перезагрузке сервера
+
+apt install cron -y
+crontab -e
+# в самом низу файла вписываем:
+@reboot stunnel /etc/stunnel/stunnel.conf
+
+stunnel stunnel.conf # запускаем stunnel
+
+
+apt install iptables -y
+
+iptables -I FORWARD -i tun0 -o ens1 -s 10.0.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -t nat -I POSTROUTING -o ens1 -s 10.0.0.0/24 -j MASQUERADE
+
+# Проверка правил (можно проверить когда всё настроим - покажет принятые пакеты и объём траффика)
+iptables -L -v -n --line-numbers
+
+# сохраняем правила, чтобы восстановить их после перезагрузки сервера
+# ставим в автозагрузку восстановление правил iptables
+
+iptables-save > /etc/iptables_rules.v4
+crontab -e # внизу файла добавляем строку:
+@reboot iptables-restore < /etc/iptables_rules.v4
+
+====================================================================================================
+#### На этом предварительная настройка сервера-1 (VPN) завершена, переходим к серверу 2 (proxy) ####
+====================================================================================================
+
+!!! ВНИМАНИЕ - ДЕЙСТВИЯ ВЫПОЛНЯЕМ НА ВТОРОМ СЕРВЕРЕ !!!
+
+# Включаем форвардинг IP
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+nano /etc/sysctl.conf # после открытия находим директиву указанную ниже и убираем значок # перед ней:
+net.ipv4.ip_forward=1
+
+создаем пользователя и задаем пароль
+
+useradd -G sudo -m vpnuser -s /bin/bash
+passwd vpnuser (Vfufpbyysq_dgy13)
+
+# Обновляем репозитории и ставим stunnel
+
+apt update && apt upgrade -y
+apt install stunnel -y
+
+# создаем конфиг для stunnel
+
+cd /etc/stunnel
+nano stunnel.conf # вставляем директивы ниже:
+
+pid = /var/run/stunnel.pid
+debug = 0
+;curves = prime256v1
+sslVersion = TLSv1.2
+[ovn]
+client = yes
+accept = 0.0.0.0:444
+connect = ip_сервера-1:4443 #вместо ip_сервера-1 ставится IP-адрес VPN-сервера, который мы настроивали выше.
+verifyPeer = yes
+cert = /etc/stunnel/clientcert.pem
+key = /etc/stunnel/clientkey.pem
+CAfile = /etc/stunnel/server.crt
+
+# Cкачиваем на сервер-2 ключи stunnel с сервера-1
+
+sftp root@ip_сервера-1
+# вводим пароль
+cd /etc/stunnel/keys
+# вводим по очереди
+get clientcert.pem
+get clientkey.pem
+get server.crt
+exit
+
+# Обратите внимание, что ключи мы должны положить на второй сервер прокси в /etc/stunnel
+# Запускаем stunnel
+
+stunnel stunnel.conf
+
+# Ставим stunnel в автозапуск (установить cron если забыли atp install cron)
+crontab -e # внизу файла дописываем:
+@reboot stunnel /etc/stunnel/stunnel.conf
+
+
+# Конфигурируем клиента OpenVPN
+# скачиваем сертификаты и ключи для авторизации на VPN-сервере. 
+# На локальной машине выполняем: (для linux клиента, для Windows просто можно скачать серты через MobaXterm)
+#####  для Windows ta.key лежит в /usr/share/easy-rsa/
+#####  остальные 3 ключа в /usr/share/easy-rsa/pki/issued/
+#                          /usr/share/easy-rsa/pki/private/
+#                          /usr/share/easy-rsa/pki/
+
+# Я продолжу добавлять профиль на Linux клиенте выбираем папку где будем хранить ключи и конфиг
+mkdir openvpn
+cd openvpn # складываем конфиги и ключи в эту папку 
+sftp root@ip_сервера-1
+cd /etc/stunnel/keys
+# выполняем последовательно
+get ca.crt
+get client1.crt
+get client1.key
+get ta.key
+exit
+# создаем конфиг .ovpn
+nano doublevpn.ovpn
+# вставляем директивы ниже:
+
+client
+dev tun
+proto tcp
+remote ip_сервера-2 444
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert client1.crt
+key client1.key
+tls-auth ta.key 1
+cipher AES-256-CBC
+comp-lzo
+log client1.log
+verb 0
+sndbuf 0
+rcvbuf 0
+auth-nocache
+remote-cert-tls server
+redirect-gateway def1 bypass-dhcp
+
+====================================================================================================
+
+# Проверяем работу VPN
+
+
